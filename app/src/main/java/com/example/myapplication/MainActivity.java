@@ -12,8 +12,12 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    int seconds = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,5 +56,33 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void enableAndDisableButtons(int toDisable, int[] toEnable){
+        for (int i = 0; i < toEnable.length; i++){
+            this.findViewById((toEnable[i])).setEnabled(true);
+        }
+
+        this.findViewById(toDisable).setEnabled(false);
+    }
+
+    private void updateTextInTimer(){
+        ((TextView)this.findViewById(R.id.Current_Timer_TextView)).setText("Hello world");
+    }
+
+    public void onButtonSoftBoiledClicked(View view){
+        int[] enablebuttons = new int[]{R.id.hard_boiled_button,R.id.smiling_button,R.id.start_stop_button};
+        enableAndDisableButtons(view.getId(),enablebuttons);
+        updateTextInTimer();
+    }
+
+    public void onButtonHardBoiledClicked(View view){
+        int[] enablebuttons = new int[]{R.id.smiling_button,R.id.soft_boiled_button,R.id.start_stop_button};
+        enableAndDisableButtons(view.getId(),enablebuttons);
+    }
+
+    public void onButtonSmilingClicked(View view){
+        int[] enablebuttons = new int[]{R.id.hard_boiled_button,R.id.soft_boiled_button,R.id.start_stop_button};
+        enableAndDisableButtons(view.getId(),enablebuttons);
     }
 }

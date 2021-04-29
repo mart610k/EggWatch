@@ -17,5 +17,5 @@
     <string name="smiling">Smiling</string>
     <string name="start_button">start</string>
     <string name="stop_button">start</string>
-
+    <string name="chose_egg_setting_text">Chose egg setting</string>
 </resources>
