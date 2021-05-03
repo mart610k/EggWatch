@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dk.mart610k.eggWatch.FirstFragment">
+    tools:context="dk.mart610k.eggwatch.FirstFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -99,31 +99,47 @@
         >
 
         <TextView
-            android:id="@+id/Current_Timer_TextView"
+            android:id="@+id/current_status_textview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:text="@string/egg_setting_not_selected"
             android:gravity="center_vertical|center_horizontal"
             android:textStyle="bold"
             android:textSize="35sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/Current_Timer_TextView"
+            />
+
+        <TextView
+            android:id="@+id/Current_Timer_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="00:00"
+            android:gravity="center_vertical|center_horizontal"
+            android:textStyle="bold"
+            android:textSize="35sp"
+            app:layout_constraintTop_toBottomOf="@id/current_status_textview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/start_stop_button"
-        android:text="@string/start_button"
+        android:text="@string/timer_start_text"
         android:width="5dp"
         android:height="5dp"
         android:layout_width="100dp"
         android:layout_height="75dp"
         android:enabled="false"
+        android:onClick="start_stopTimerButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.90"
         app:layout_constraintVertical_weight="0.50"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="start_stopTimerButton"
         app:layout_constraintTop_toBottomOf="@+id/timer_text"
         app:layout_constraintEnd_toStartOf="@id/reset_button"
 

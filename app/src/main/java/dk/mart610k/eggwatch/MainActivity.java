@@ -1,20 +1,16 @@
-package dk.mart610k.eggWatch;
+package dk.mart610k.eggwatch;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.mart610k.myapplication.R;
+import com.mart610k.eggwatch.R;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.os.Handler;
 import android.view.View;
 
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -55,14 +51,16 @@ public class MainActivity extends AppCompatActivity {
     public void start_stopTimerButton(View view){
         if(timerInProgress) {
             eggWatchHandler.removeCallbacksAndMessages(null);
-            ((TextView) this.findViewById(R.id.Current_Timer_TextView)).setText(R.string.stopped_timer);
+            ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.stopped_timer);
+            ((Button)view).setText(R.string.timer_resume_text);
 
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
             }
         }
         else {
-            timer = lastTimerSet;
+            ((Button)view).setText(R.string.timer_pause_text);
+            ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.starter_timer);
             eggWatchHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -120,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onButtonSoftBoiledClicked(View view){
         int[] enablebuttons = new int[]{R.id.hard_boiled_button,R.id.smiling_button,R.id.start_stop_button};
+        ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.ready_timer);
         enableAndDisableButtons(view.getId(),enablebuttons);
         setTimers(60 * 4);
         updateTextInTimer();
@@ -131,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onButtonHardBoiledClicked(View view){
         int[] enablebuttons = new int[]{R.id.smiling_button,R.id.soft_boiled_button,R.id.start_stop_button};
+        ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.ready_timer);
+
         setTimers(60 * 8);
         updateTextInTimer();
 
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onButtonSmilingClicked(View view){
         int[] enablebuttons = new int[]{R.id.hard_boiled_button,R.id.soft_boiled_button,R.id.start_stop_button};
+        ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.ready_timer);
         enableAndDisableButtons(view.getId(),enablebuttons);
         setTimers(60 * 6);
         updateTextInTimer();

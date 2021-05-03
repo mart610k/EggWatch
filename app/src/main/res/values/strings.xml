@@ -20,6 +20,11 @@
     <string name="chose_egg_setting_text">Chose egg setting</string>
     <string name="egg_setting_not_selected">Egg setting not selected</string>
     <string name="stopped_timer">Timer Stopped</string>
+    <string name="starter_timer">Timer Started</string>
+    <string name="ready_timer">Timer Ready</string>
     <string name="timer_text">Start</string>
+    <string name="timer_start_text">Start</string>
+    <string name="timer_pause_text">Pause</string>
+    <string name="timer_resume_text">Resume</string>
     <string name="reset_button">Reset</string>
 </resources>

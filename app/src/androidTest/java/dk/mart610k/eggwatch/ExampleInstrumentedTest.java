@@ -1,4 +1,4 @@
-package dk.mart610k.eggWatch;
+package dk.mart610k.eggwatch;
 
 import android.content.Context;
 

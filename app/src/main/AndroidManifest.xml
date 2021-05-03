@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mart610k.myapplication">
+    package="com.mart610k.eggwatch">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name="dk.mart610k.eggWatch.MainActivity"
+            android:name="dk.mart610k.eggwatch.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>

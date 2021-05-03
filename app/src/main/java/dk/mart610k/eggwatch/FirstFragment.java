@@ -1,4 +1,4 @@
-package dk.mart610k.eggWatch;
+package dk.mart610k.eggwatch;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.mart610k.myapplication.R;
+import com.mart610k.eggwatch.R;
 
 public class FirstFragment extends Fragment {
 
