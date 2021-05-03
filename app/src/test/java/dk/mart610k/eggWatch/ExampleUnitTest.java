@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package dk.mart610k.eggWatch;
 
 import org.junit.Test;
 

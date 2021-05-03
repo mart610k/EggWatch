@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FirstFragment">
+    tools:context="dk.mart610k.eggWatch.FirstFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/eggText_ConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <TextView
             android:layout_width="match_parent"
@@ -34,7 +37,6 @@
 
         <Button
             android:id="@+id/smiling_button"
-            android:onClick="onButtonSmilingClicked"
             android:layout_width="100dp"
             android:layout_height="75dp"
             android:width="5dp"
@@ -42,6 +44,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="@string/smiling"
+            android:onClick="onButtonSmilingClicked"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0.5"
@@ -99,12 +102,10 @@
             android:id="@+id/Current_Timer_TextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Something"
+            android:text="@string/egg_setting_not_selected"
             android:gravity="center_vertical|center_horizontal"
             android:textStyle="bold"
             android:textSize="35sp"
-
-
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -122,7 +123,31 @@
         app:layout_constraintVertical_bias="0.90"
         app:layout_constraintVertical_weight="0.50"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timer_text" />
+        android:onClick="start_stopTimerButton"
+        app:layout_constraintTop_toBottomOf="@+id/timer_text"
+        app:layout_constraintEnd_toStartOf="@id/reset_button"
+
+
+
+        />
+
+    <Button
+        android:id="@+id/reset_button"
+        android:text="@string/reset_button"
+        android:width="5dp"
+        android:height="5dp"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.90"
+        app:layout_constraintVertical_weight="0.50"
+        app:layout_constraintStart_toEndOf="@id/start_stop_button"
+        android:onClick="resetButton"
+        app:layout_constraintTop_toBottomOf="@+id/timer_text"
+
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

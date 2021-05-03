@@ -18,4 +18,8 @@
     <string name="start_button">start</string>
     <string name="stop_button">start</string>
     <string name="chose_egg_setting_text">Chose egg setting</string>
+    <string name="egg_setting_not_selected">Egg setting not selected</string>
+    <string name="stopped_timer">Timer Stopped</string>
+    <string name="timer_text">Start</string>
+    <string name="reset_button">Reset</string>
 </resources>
