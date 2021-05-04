@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dk.mart610k.eggwatch.FirstFragment">
+    tools:context="dk.mart610k.eggwatch.FirstFragment"
+
+    android:background="#A5A5A5"
+    >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -125,39 +129,34 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/start_stop_button"
         android:text="@string/timer_start_text"
-        android:width="5dp"
-        android:height="5dp"
-        android:layout_width="100dp"
-        android:layout_height="75dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:enabled="false"
+        android:textColor="@color/black"
         android:onClick="start_stopTimerButton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.90"
-        app:layout_constraintVertical_weight="0.50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timer_text"
         app:layout_constraintEnd_toStartOf="@id/reset_button"
-
-
-
+        android:background="@drawable/roundbottondisabled"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/reset_button"
         android:text="@string/reset_button"
-        android:width="5dp"
-        android:height="5dp"
-        android:layout_width="100dp"
-        android:layout_height="75dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:enabled="false"
+        android:background="@drawable/roundbottondisabled"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.90"
-        app:layout_constraintVertical_weight="0.50"
         app:layout_constraintStart_toEndOf="@id/start_stop_button"
         android:onClick="resetButton"
         app:layout_constraintTop_toBottomOf="@+id/timer_text"
