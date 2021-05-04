@@ -129,7 +129,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/start_stop_button"
         android:text="@string/timer_start_text"
