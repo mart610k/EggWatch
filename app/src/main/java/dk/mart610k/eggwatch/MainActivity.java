@@ -1,16 +1,22 @@
 package dk.mart610k.eggwatch;
 
+import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.mart610k.eggwatch.R;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -32,16 +38,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Helper method for enable and disable different buttons.
+     * Helper method for enable multiple buttons and disable a button.
      * @param toDisable the button to disable
      * @param toEnable the buttons to enable
      */
     private void enableAndDisableButtons(int toDisable, int[] toEnable){
         for (int i = 0; i < toEnable.length; i++){
-            this.findViewById((toEnable[i])).setEnabled(true);
+            enableButton(toEnable[i]);
         }
-
-        this.findViewById(toDisable).setEnabled(false);
+        disableButton(toDisable);
     }
 
     /**
@@ -74,8 +79,47 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        this.findViewById(R.id.reset_button).setEnabled(timerInProgress);
+        if (timerInProgress) {
+            enableButton(R.id.reset_button);
+        } else {
+            disableButton(R.id.reset_button);
+        }
+
         timerInProgress = !timerInProgress;
+    }
+
+    /**
+     * Disables the button that are passed in as the variable.
+     * @param buttonID the ID of the button to disable
+     */
+    private void disableButton(int buttonID){
+        this.findViewById(buttonID).setEnabled(false);
+        switch (buttonID) {
+            case R.id.start_stop_button:
+            case R.id.reset_button:
+                this.findViewById(buttonID).setBackground(getDrawable(R.drawable.roundbottondisabled));
+                break;
+            default:
+                this.findViewById(buttonID).setAlpha(0.5f);
+                break;
+        }
+    }
+
+    /**
+     * Enables button and updates any related settings to button
+     * @param buttonID the ID of the button to enable
+     */
+    private void enableButton(int buttonID){
+        this.findViewById(buttonID).setEnabled(true);
+        switch (buttonID){
+            case R.id.start_stop_button:
+            case R.id.reset_button:
+                this.findViewById(buttonID).setBackground(getDrawable(R.drawable.roundbutton));
+                break;
+            default:
+                this.findViewById(buttonID).setAlpha(1.0f);
+                break;
+        }
     }
 
     /**
@@ -83,6 +127,16 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startAlarm(){
         eggWatchHandler.removeCallbacksAndMessages(null);
+
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        if (vibrator == null){
+
+        }
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createWaveform(new long[]{500, 200, 500, 200, 500, 200, 500, 200, 500},new int[]{255, 0, 255, 0, 255, 0, 255, 0, 255} ,-1));
+        } else {
+            vibrator.vibrate(2000);
+        }
         mediaPlayer.start();
     }
 
@@ -90,8 +144,7 @@ public class MainActivity extends AppCompatActivity {
      * Updates the text view for the view on the with the amount of seconds remaining
      */
     private void updateTextInTimer(){
-
-        ((TextView)this.findViewById(R.id.Current_Timer_TextView)).setText(String.format("%02d:%02d", calculateMinutesFromSeconds(timer),getSecondsRemainderInFromSeconds(timer)));
+        ((TextView)this.findViewById(R.id.Current_Timer_TextView)).setText(String.format(getString(R.string.egg_watch_time_format), calculateMinutesFromSeconds(timer),getSecondsRemainderInFromSeconds(timer)));
     }
 
     /**
@@ -166,6 +219,6 @@ public class MainActivity extends AppCompatActivity {
     public void resetButton(View view){
         timer = lastTimerSet;
         updateTextInTimer();
-        view.setEnabled(false);
+        disableButton(view.getId());
     }
 }
