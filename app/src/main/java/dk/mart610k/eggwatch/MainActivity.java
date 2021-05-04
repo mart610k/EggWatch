@@ -1,6 +1,5 @@
 package dk.mart610k.eggwatch;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,15 +18,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import dk.mart610k.eggwatch.service.EggTimer;
+import dk.mart610k.eggwatch.service.IEggTimerListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IEggTimerListener {
 
     int timer = 0;
     int lastTimerSet = 0;
     boolean timerInProgress = false;
 
     Handler eggWatchHandler = new Handler();
-
+    private EggTimer eggTimer;
     private MediaPlayer mediaPlayer;
 
     @Override
@@ -54,38 +55,20 @@ public class MainActivity extends AppCompatActivity {
      * @param view the caller on the GUI.
      */
     public void start_stopTimerButton(View view){
-        if(timerInProgress) {
-            eggWatchHandler.removeCallbacksAndMessages(null);
-            ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.stopped_timer);
-            ((Button)view).setText(R.string.timer_resume_text);
-
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
+        if(eggTimer.getIsRunning()) {
+            eggTimer.stopTimer();
+            enableButton(R.id.reset_button);
         }
         else {
             ((Button)view).setText(R.string.timer_pause_text);
             ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.starter_timer);
-            eggWatchHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (timer <= 0) {
-                        startAlarm();
-                    } else {
-                        eggWatchHandler.postDelayed(this, 1000);
-                        timer--;
-                        updateTextInTimer();
-                    }
-                }
-            });
-        }
-        if (timerInProgress) {
-            enableButton(R.id.reset_button);
-        } else {
+            if(eggTimer.getState().equals(Thread.State.TERMINATED)){
+                eggTimer = new EggTimer(lastTimerSet,this);
+            }
+            eggTimer.start();
+            eggTimer.setIEggTimeListener(this);
             disableButton(R.id.reset_button);
         }
-
-        timerInProgress = !timerInProgress;
     }
 
     /**
@@ -122,30 +105,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Starts the media player for the alarm
-     */
-    private void startAlarm(){
-        eggWatchHandler.removeCallbacksAndMessages(null);
-
-        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        if (vibrator == null){
-
-        }
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createWaveform(new long[]{500, 200, 500, 200, 500, 200, 500, 200, 500},new int[]{255, 0, 255, 0, 255, 0, 255, 0, 255} ,-1));
-        } else {
-            vibrator.vibrate(2000);
-        }
-        mediaPlayer.start();
-    }
-
-    /**
-     * Updates the text view for the view on the with the amount of seconds remaining
-     */
-    private void updateTextInTimer(){
-        ((TextView)this.findViewById(R.id.Current_Timer_TextView)).setText(String.format(getString(R.string.egg_watch_time_format), calculateMinutesFromSeconds(timer),getSecondsRemainderInFromSeconds(timer)));
-    }
 
     /**
      * Helper method for getting the remaining minutes without the floating number
@@ -172,9 +131,8 @@ public class MainActivity extends AppCompatActivity {
     public void onButtonSoftBoiledClicked(View view){
         int[] enablebuttons = new int[]{R.id.hard_boiled_button,R.id.smiling_button,R.id.start_stop_button};
         ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.ready_timer);
-        enableAndDisableButtons(view.getId(),enablebuttons);
         setTimers(60 * 4);
-        updateTextInTimer();
+        enableAndDisableButtons(view.getId(),enablebuttons);
     }
 
     /**
@@ -186,8 +144,6 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.ready_timer);
 
         setTimers(60 * 8);
-        updateTextInTimer();
-
         enableAndDisableButtons(view.getId(),enablebuttons);
     }
 
@@ -200,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) this.findViewById(R.id.current_status_textview)).setText(R.string.ready_timer);
         enableAndDisableButtons(view.getId(),enablebuttons);
         setTimers(60 * 6);
-        updateTextInTimer();
     }
 
     /**
@@ -209,7 +164,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setTimers(int timerToSet){
         lastTimerSet = timerToSet;
-        timer = timerToSet;
+        onCountDown(timerToSet);
+        eggTimer = new EggTimer(timerToSet,this);
     }
 
     /**
@@ -217,8 +173,18 @@ public class MainActivity extends AppCompatActivity {
      * @param view the calling object
      */
     public void resetButton(View view){
-        timer = lastTimerSet;
-        updateTextInTimer();
+        eggTimer = null;
+        setTimers(lastTimerSet);
         disableButton(view.getId());
+    }
+
+    @Override
+    public void onCountDown(int timeLeft) {
+        ((TextView)this.findViewById(R.id.Current_Timer_TextView)).setText(String.format(getString(R.string.egg_watch_time_format), calculateMinutesFromSeconds(timeLeft),getSecondsRemainderInFromSeconds(timeLeft)));
+    }
+
+    @Override
+    public void onEggTimerStopped() {
+
     }
 }
