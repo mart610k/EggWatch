@@ -60,13 +60,16 @@ public class EggTimer extends Thread {
     }
 
     /**
-     * Stops the Vibrator and media player interupts the thread.
+     * Interupts the thread.
      */
     public void stopTimer(){
         this.interrupt();
         isRunning = false;
     }
 
+    /**
+     * Releases and stops the used the resources.
+     */
     public void releaseAndStopResources(){
         mediaPlayer.stop();
         mediaPlayer.release();
